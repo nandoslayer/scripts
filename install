@@ -1,18 +1,18 @@
 #!/bin/bash
 # Configura o fuso horário para São Paulo
-sudo timedatectl set-timezone America/Sao_Paulo
+timedatectl set-timezone America/Sao_Paulo
 clear
 
 if [[ $(uname -m) == "aarch64" ]]; then
-    sudo rm -rf install* > /dev/null 2>&1
-    sudo wget raw.githubusercontent.com/nandoslayer/scripts/refs/heads/main/sshplusarm64 > /dev/null 2>&1 && sudo chmod +x sshplusarm64 && sudo ./sshplusarm64
-    sudo cat /dev/null > ~/.bash_history && history -c
-    sudo rm -rf wget-log* > /dev/null 2>&1
+    rm -rf install* > /dev/null 2>&1
+    wget raw.githubusercontent.com/nandoslayer/scripts/refs/heads/main/sshplusarm64 > /dev/null 2>&1 && chmod +x sshplusarm64 && ./sshplusarm64
+    cat /dev/null > ~/.bash_history && history -c
+    rm -rf wget-log* > /dev/null 2>&1
     exit;
 else
-    sudo rm -rf install* > /dev/null 2>&1
-    sudo wget raw.githubusercontent.com/nandoslayer/scripts/refs/heads/main/sshplusinstall > /dev/null 2>&1 && sudo chmod +x sshplusinstall && sudo ./sshplusinstall
-    sudo cat /dev/null > ~/.bash_history && history -c
-    sudo rm -rf wget-log* > /dev/null 2>&1
+    rm -rf install* > /dev/null 2>&1
+    wget raw.githubusercontent.com/nandoslayer/scripts/refs/heads/main/sshplusinstall > /dev/null 2>&1 && chmod +x sshplusinstall && ./sshplusinstall
+    cat /dev/null > ~/.bash_history && history -c
+    rm -rf wget-log* > /dev/null 2>&1
     exit;
 fi
