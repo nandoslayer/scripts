@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# Limpeza da tela e exibição de cabeçalhos formatados
+clear
+echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
+tput setaf 7 ; tput setab 4 ; tput bold ; printf '%36s%s%-16s\n' "SSHPLUS PRO CRACKED!" ; tput sgr0
+echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
+echo ""
+echo ""
+
+# Confirmação para atualização
+echo -ne "\033[1;36mATUALIZAR? [N/S]: \033[1;37m"; read x
+[[ $x = @(n|N) ]] && exit
+
+# Atualização do sistema (visível)
+apt update -y
+apt upgrade -y
+
+# Instalação de pacotes necessários (silencioso)
+apt install curl -y > /dev/null 2>&1
+apt install language-pack-en -y > /dev/null 2>&1
+curl -4 ifconfig.co > /etc/IP
+apt install bc -y > /dev/null 2>&1
+apt install nethogs -y > /dev/null 2>&1
+apt install screen -y > /dev/null 2>&1
+apt install nano -y > /dev/null 2>&1
+apt install lsof -y > /dev/null 2>&1
+apt install netstat -y > /dev/null 2>&1
+apt install net-tools -y > /dev/null 2>&1
+apt install dos2unix -y > /dev/null 2>&1
+apt install nload -y > /dev/null 2>&1
+apt install jq -y > /dev/null 2>&1
+apt install figlet -y > /dev/null 2>&1
+apt install python3 -y > /dev/null 2>&1
+apt install python -y > /dev/null 2>&1
+apt install python-pip -y > /dev/null 2>&1
+apt install python3-pip -y > /dev/null 2>&1
+
+# Instalação de dependências Python (silencioso)
+pip install msvcrt > /dev/null 2>&1
+pip3 install msvcrt > /dev/null 2>&1
+pip3 install asn1crypto attrs Automat blinker click colorama configobj constantly distro-info httplib2 hyperlink incremental Jinja2 jsonpatch jsonpointer jsonschema keyring keyrings.alt MarkupSafe oauthlib PAM pexpect pip pyasn1 pyasn1-modules pycrypto PyJWT pyserial pyxdg PyYAML requests requests-unixsocket SecretStorage service-identity setuptools six sos ssh-import-id Twisted urllib3 wheel zope.interface > /dev/null 2>&1
+
+# Remover o sslh (silencioso)
+apt purge sslh -y > /dev/null 2>&1
+
+# Verifica a arquitetura do sistema
+case "$(uname -m)" in
+  'amd64' | 'x86_64')
+    arch='sshplus.zip'
+    ;;
+  'aarch64')
+    arch='sshplusarm64.zip'
+    ;;
+  *)
+    echo -e "\033[1;31m[x] ARQUITETURA INCOMPATÍVEL!\033[0m"
+    exit 1
+    ;;
+esac
+
+# Instalar novamente o unzip (caso não esteja instalado) (silencioso)
+apt install unzip -y > /dev/null 2>&1
+
+# Define o diretório SSHPlus e faz o download dos arquivos (silencioso)
+sshplus_dir="/opt/sshplus"
+mkdir -p "$sshplus_dir"
+cd "$sshplus_dir" || exit
+
+# Arquivos necessários para o SSHPlus
+sshplus_files=("proxy.py" "wsproxy.py" "open.py" "auto-renew-ssl.sh")
+
+# Download dos arquivos SSHPlus e certificados (silencioso)
+wget --no-check-certificate -q "https://sshplus.xyz/scripts/${arch}"
+wget --no-check-certificate -q "https://sshplus.xyz/scripts/cert.crt"
+
+# Atualiza o certificado no sistema (silencioso)
+cert_file="cert.crt"
+mv "$cert_file" /usr/local/share/ca-certificates/
+update-ca-certificates > /dev/null 2>&1
+
+# Extrai o conteúdo do arquivo zipado e organiza os arquivos (silencioso)
+unzip -o "${arch}" > /dev/null 2>&1
+rm "${arch}"
+mv "${sshplus_files[@]}" /etc/SSHPlus/ > /dev/null 2>&1
+mv "backup.sh" /etc/SSHPlus/bot-telegram/ > /dev/null 2>&1
+mv "menu" "/bin/menu" > /dev/null 2>&1
+mv "proxy" "/bin/proxy" > /dev/null 2>&1
+
+# Define permissões (silencioso)
+chmod +x "/bin/menu" "/bin/proxy" > /dev/null 2>&1
+chmod 777 -R "/etc/SSHPlus" > /dev/null 2>&1
+chmod 777 -R "/opt/sshplus" > /dev/null 2>&1
+
+# Limpeza da tela e exibição de mensagem final
+clear
+echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
+tput setaf 7 ; tput setab 4 ; tput bold ; printf '%42s%s%-10s\n' "By nandoslayer! | Novo Crack v3!" ; tput sgr0
+echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
+echo ""
+echo ""
+echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
+tput setaf 7 ; tput setab 4 ; tput bold ; printf '%38s%s%-14s\n' "Entrar no Painel: menu" ; tput sgr0
+echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
+echo ""
