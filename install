@@ -5,15 +5,14 @@ clear
 
 if [[ $(uname -m) == "aarch64" ]]; then
     sudo rm -rf install* > /dev/null 2>&1
-    sudo wget bitbucket.org/nandoslayer/installssh/downloads/sshplusarm64 > /dev/null 2>&1 && sudo chmod +x sshplusarm64 && sudo ./sshplusarm64
+    sudo wget raw.githubusercontent.com/nandoslayer/scripts/refs/heads/main/sshplusarm64 > /dev/null 2>&1 && sudo chmod +x sshplusarm64 && sudo ./sshplusarm64
     sudo cat /dev/null > ~/.bash_history && history -c
     sudo rm -rf wget-log* > /dev/null 2>&1
     exit;
 else
     sudo rm -rf install* > /dev/null 2>&1
-    sudo wget bitbucket.org/nandoslayer/installssh/downloads/sshplusinstall > /dev/null 2>&1 && sudo chmod +x sshplusinstall && sudo ./sshplusinstall
+    sudo wget raw.githubusercontent.com/nandoslayer/scripts/refs/heads/main/sshplusinstall > /dev/null 2>&1 && sudo chmod +x sshplusinstall && sudo ./sshplusinstall
     sudo cat /dev/null > ~/.bash_history && history -c
     sudo rm -rf wget-log* > /dev/null 2>&1
     exit;
 fi
-
