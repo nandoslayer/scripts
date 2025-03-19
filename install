@@ -27,10 +27,9 @@ apt update -y
 } > /dev/null
 
 
-sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config.d/60-cloudimg-settings.conf  > /dev/null
-
-
-#sed -i "s/ChallengeResponseAuthentication no/#ChallengeResponseAuthentication no/g" /etc/ssh/sshd_config
+if [[ -f /etc/ssh/sshd_config.d/60-cloudimg-settings.conf ]]; then
+  sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config.d/60-cloudimg-settings.conf > /dev/null
+fi
 
 service ssh restart > /dev/null
 
