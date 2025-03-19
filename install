@@ -1,16 +1,65 @@
 #!/bin/bash
 # Configura o fuso horário para São Paulo
 timedatectl set-timezone America/Sao_Paulo
+
+iptables -F
+echo 'nameserver 1.1.1.1' > /etc/resolv.conf
+echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+apt update -y
+
+[[ $(grep -c "prohibit-password" /etc/ssh/sshd_config) != '0' ]] && {
+	sed -i "s/prohibit-password/yes/g" /etc/ssh/sshd_config
+} > /dev/null
+[[ $(grep -c "without-password" /etc/ssh/sshd_config) != '0' ]] && {
+	sed -i "s/without-password/yes/g" /etc/ssh/sshd_config
+} > /dev/null
+[[ $(grep -c "#PermitRootLogin" /etc/ssh/sshd_config) != '0' ]] && {
+	sed -i "s/#PermitRootLogin/PermitRootLogin/g" /etc/ssh/sshd_config
+} > /dev/null
+[[ $(grep -c "PasswordAuthentication" /etc/ssh/sshd_config) = '0' ]] && {
+	echo 'PasswordAuthentication yes' > /etc/ssh/sshd_config
+} > /dev/null
+[[ $(grep -c "PasswordAuthentication no" /etc/ssh/sshd_config) != '0' ]] && {
+	sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+} > /dev/null
+[[ $(grep -c "#PasswordAuthentication no" /etc/ssh/sshd_config) != '0' ]] && {
+	sed -i "s/#PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+} > /dev/null
+
+
+sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config.d/60-cloudimg-settings.conf  > /dev/null
+
+
+#sed -i "s/ChallengeResponseAuthentication no/#ChallengeResponseAuthentication no/g" /etc/ssh/sshd_config
+
+service ssh restart > /dev/null
+
+iptables -F
+iptables -A INPUT -p tcp --dport 81 -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8799 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+iptables -A INPUT -p tcp --dport 1194 -j ACCEPT
+iptables -A INPUT -p tcp --dport 9060 -j ACCEPT
+
+# - Atualiza Lista/Pacotes/Sistema
+dpkg --configure -a
+apt update -y && apt upgrade -y
+apt install cron curl jq unzip python3 -y
+
+# - Ajusta o sysctl
+echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf && sysctl -p
 clear
 
 if [[ $(uname -m) == "aarch64" ]]; then
-    rm -rf install* sshplus* > /dev/null 2>&1
+    rm -rf install* > /dev/null 2>&1
     wget raw.githubusercontent.com/nandoslayer/scripts/refs/heads/main/sshplusarm64 > /dev/null 2>&1 && chmod +x sshplusarm64 && ./sshplusarm64
     cat /dev/null > ~/.bash_history && history -c
     rm -rf wget-log* > /dev/null 2>&1
     exit;
 else
-    rm -rf install* sshplus* > /dev/null 2>&1
+    rm -rf install* > /dev/null 2>&1
     wget raw.githubusercontent.com/nandoslayer/scripts/refs/heads/main/sshplusinstall > /dev/null 2>&1 && chmod +x sshplusinstall && ./sshplusinstall
     cat /dev/null > ~/.bash_history && history -c
     rm -rf wget-log* > /dev/null 2>&1
