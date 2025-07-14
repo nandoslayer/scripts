@@ -2,9 +2,6 @@
 # Configura o fuso horário para São Paulo
 timedatectl set-timezone America/Sao_Paulo
 
-iptables -F
-echo 'nameserver 1.1.1.1' > /etc/resolv.conf
-echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 apt update -y
 
 [[ $(grep -c "prohibit-password" /etc/ssh/sshd_config) != '0' ]] && {
@@ -47,8 +44,6 @@ dpkg --configure -a
 apt update -y && apt upgrade -y
 apt install cron curl jq unzip python3 -y
 
-# - Ajusta o sysctl
-echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf && sysctl -p
 clear
 
 if [[ $(uname -m) == "aarch64" ]]; then
