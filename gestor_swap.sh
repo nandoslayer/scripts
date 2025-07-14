@@ -29,12 +29,11 @@ remove_sshd_config() {
 backup_sshd_config
 
 # Remover entradas desnecessárias
-for setting in "PasswordAuthentication" "X11Forwarding" "ClientAliveInterval" "ClientAliveCountMax" "MaxStartups" "MaxAuthTries" "Compression" "PermitTunnel" "UseDNS"; do
+for setting in "PasswordAuthentication" "X11Forwarding" "ClientAliveInterval" "ClientAliveCountMax" "MaxAuthTries" "Compression" "PermitTunnel" "UseDNS"; do
     remove_sshd_config "$setting"
 done
 
 # Adicionar ou modificar configurações
-modify_sshd_config "Protocol" "Protocol 2"
 modify_sshd_config "PermitRootLogin" "PermitRootLogin yes"
 modify_sshd_config "PasswordAuthentication" "PasswordAuthentication yes"
 modify_sshd_config "PermitTunnel" "PermitTunnel yes"
@@ -43,7 +42,6 @@ modify_sshd_config "UsePAM" "UsePAM yes"
 modify_sshd_config "X11Forwarding" "X11Forwarding no"
 modify_sshd_config "ClientAliveInterval" "ClientAliveInterval 60"
 modify_sshd_config "ClientAliveCountMax" "ClientAliveCountMax 3"
-modify_sshd_config "MaxStartups" "MaxStartups 5000:10:5000"
 modify_sshd_config "MaxAuthTries" "MaxAuthTries 3"
 modify_sshd_config "Compression" "Compression no"
 modify_sshd_config "UseDNS" "UseDNS no"
@@ -141,7 +139,7 @@ fi
 total_size=$(lsblk -b -d -o SIZE "/dev/$disk" | tail -n1)
 total_size_mb=$((total_size / (1024 * 1024)))
 
-swap_size=$(echo "$total_size_mb * 0.20 / 1" | bc)
+swap_size=$(echo "$total_size_mb * 0.10 / 1" | bc)
 swap_size_rounded=$(( ((swap_size + 1023) / 1024) * 1024 ))
 
 echo
